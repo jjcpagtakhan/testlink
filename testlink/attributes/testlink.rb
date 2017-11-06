@@ -1,0 +1,17 @@
+default['spiral']['testlinkdata']['data'] = '/testlink/data'
+default['spiral']['testlinkdata']['mariadb'] = '/testlink/mariadb'
+
+default[:spiral][:testlink][:mariadbuser] = 'root'
+default[:spiral][:testlink][:mariadbpass] = 'maria123'
+default[:spiral][:testlink][:testlinkuser] = 'admin'
+default[:spiral][:testlink][:testlinkpass] = 'admin123'
+default[:spiral][:testlink][:testlinkmail] = 'admin@example.com'
+default[:spiral][:testlink][:smtphost] = 'smtp.gmail.com'
+default[:spiral][:testlink][:smtpport] = '587'
+default[:spiral][:testlink][:smtpuser] = 'test@gmail.com'
+default[:spiral][:testlink][:smtppass] = 'test123'
+default[:spiral][:testlink][:smtpconn] = 'tls'
+
+default['backup']['testlink']['log'] = '/opt/backup/log'
+default['backup']['testlink']['list'] = '/opt/backup/s3list' 
+default['backup']['testlink']['files'] = '/opt/backup/backup_files'

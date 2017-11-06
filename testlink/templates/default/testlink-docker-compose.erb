@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+  mariadb:
+    image: 'bitnami/mariadb:10.1.28-r2'
+    container_name: mariadb
+    environment:
+      MARIADB_ROOT_USER: <%= node[:spiral][:testlink][:mariadbuser] %>
+      MARIADB_ROOT_PASSWORD: <%= node[:spiral][:testlink][:mariadbpass] %>
+    volumes:
+      - '/testlink/mariadb:/bitnami'
+  testlink:
+    image: 'bitnami/testlink:1.9.16-r8'
+    labels:
+      kompose.service.type: nodeport
+    container_name: testlink
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - '/testlink/data:/bitnami'
+    environment:
+      TESTLINK_USERNAME: <%= node[:spiral][:testlink][:testlinkuser] %>
+      TESTLINK_PASSWORD: <%= node[:spiral][:testlink][:testlinkpass] %>
+      TESTLINK_EMAIL: <%= node[:spiral][:testlink][:testlinkmail] %>
+      MARIADB_USER: <%= node[:spiral][:testlink][:mariadbuser] %>
+      MARIADB_PASSWORD: <%= node[:spiral][:testlink][:mariadbpass] %>
+# the jenkins account should allow testlink app to use it to be able to send emails as it is blocked by default
+      SMTP_HOST: <%= node[:spiral][:testlink][:smtphost] %>
+      SMTP_PORT: <%= node[:spiral][:testlink][:smtpport] %>
+      SMTP_USER: <%= node[:spiral][:testlink][:smtpuser] %>
+      SMTP_PASSWORD: <%= node[:spiral][:testlink][:smtppass] %>
+      SMTP_CONNECTION_MODE: <%= node[:spiral][:testlink][:smtpconn] %>
+    depends_on:
+      - mariadb
+
+volumes:
+  mariadb:
+    driver: local
+  data:
+    driver: local

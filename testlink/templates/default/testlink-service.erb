@@ -1,0 +1,16 @@
+[Unit]
+Description=Testlink container
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker start -a testlink
+ExecStop=/usr/bin/docker stop -t 2 testlink
+
+Restart=always
+RestartSec=5
+TimeoutSec=180
+User=root
+
+[Install]
+WantedBy=multi-user.target
