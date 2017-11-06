@@ -26,6 +26,11 @@ execute 'install-awscli' do
 	command 'pip install awscli'
 end
 
+user 'user1001' do
+	uid '1001'
+	shell '/sbin/nologin'
+end
+
 directory '/Docker/' do
 	owner	'root'
 	group	'root'
@@ -43,14 +48,14 @@ end
 node['spiral']['testlinkdata'].each do |dir, path|
 	directory path do
 		action  :create
-        	owner   '1001'
-        	group   '1001'
+        	owner   'user1001'
+        	group   'opsworks'
         	mode    '0755'
 	end
 end
 
 execute 'set-owner' do
-	command 'chown -R 1001:1001 /testlink/*'
+	command 'chown -R user1001:opsworks /testlink/*'
 end
 
 execute 'run-docker-compose' do
